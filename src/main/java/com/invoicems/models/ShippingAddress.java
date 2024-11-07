@@ -3,79 +3,84 @@ package com.invoicems.models;
 
 public class ShippingAddress {
 
-	private String address1;
-	private String country1;
-	private String state1;
-	private String city1;
-	private Long pincode1;
-	private String companyName1;
-	private String gstin1;
+	private String ship_address;
+	private String ship_country;
+	private String ship_state;
+	private String ship_city;
+	private Long ship_pincode;
+	private String ship_companyName;
+	private String ship_gstin;
 	
 	public ShippingAddress() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getAddress1() {
-		return address1;
+	public String getShip_address() {
+		return ship_address;
 	}
 
-	public void setAddress1(String address1) {
-		this.address1 = address1;
+	public void setShip_address(String ship_address) {
+		this.ship_address = ship_address;
 	}
 
-	public String getCountry1() {
-		return country1;
+	public String getShip_country() {
+		return ship_country;
 	}
 
-	public void setCountry1(String country1) {
-		this.country1 = country1;
+	public void setShip_country(String ship_country) {
+		this.ship_country = ship_country;
 	}
 
-	public String getState1() {
-		return state1;
+	public String getShip_state() {
+		return ship_state;
 	}
 
-	public void setState1(String state1) {
-		this.state1 = state1;
+	public void setShip_state(String ship_state) {
+		this.ship_state = ship_state;
 	}
 
-	public String getCity1() {
-		return city1;
+	public String getShip_city() {
+		return ship_city;
 	}
 
-	public void setCity1(String city1) {
-		this.city1 = city1;
+	public void setShip_city(String ship_city) {
+		this.ship_city = ship_city;
 	}
 
-	public Long getPincode1() {
-		return pincode1;
+	public Long getShip_pincode() {
+		return ship_pincode;
 	}
 
-	public void setPincode1(Long pincode1) {
-		this.pincode1 = pincode1;
+	public void setShip_pincode(Long ship_pincode) {
+		this.ship_pincode = ship_pincode;
 	}
 
-	public String getCompanyName1() {
-		return companyName1;
+	public String getShip_companyName() {
+		return ship_companyName;
 	}
 
-	public void setCompanyName1(String companyName1) {
-		this.companyName1 = companyName1;
+	public void setShip_companyName(String ship_companyName) {
+		this.ship_companyName = ship_companyName;
 	}
 
-	public String getGstin1() {
-		return gstin1;
+	public String getShip_gstin() {
+		return ship_gstin;
 	}
 
-	public void setGstin1(String gstin1) {
-		this.gstin1 = gstin1;
+	public void setShip_gstin(String ship_gstin) {
+		this.ship_gstin = ship_gstin;
 	}
 
 	@Override
 	public String toString() {
-		return "ShippingAddress [address1=" + address1 + ", country1=" + country1 + ", state1=" + state1 + ", city1="
-				+ city1 + ", pincode1=" + pincode1 + ", companyName1=" + companyName1 + ", gstin1=" + gstin1 + "]";
+		return "ShippingAddress [ship_address=" + ship_address + ", ship_country=" + ship_country + ", ship_state="
+				+ ship_state + ", ship_city=" + ship_city + ", ship_pincode=" + ship_pincode + ", ship_companyName="
+				+ ship_companyName + ", ship_gstin=" + ship_gstin + "]";
 	}
+
+
+	
+	
 
 
 	

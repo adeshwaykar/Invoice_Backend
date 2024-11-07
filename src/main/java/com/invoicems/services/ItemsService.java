@@ -1,6 +1,8 @@
 package com.invoicems.services;
 
+import com.invoicems.models.Customer;
 import com.invoicems.models.Items;
+import com.invoicems.repositories.CustomerRepository;
 import com.invoicems.repositories.ItemsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,23 @@ public class ItemsService {
 
     @Autowired
     private ItemsRepository itemsRepository;
+    
+    @Autowired
+    private CustomerRepository customerRepository;
 
-    // Create or update item
-    public Items saveOrUpdateItem(Items item) {
-        return itemsRepository.save(item);
+   
+    
+ // In the service layer or controller
+
+    public Items saveOrUpdateItem(Long customerId, Items item) {
+        Customer customer = customerRepository.findById(customerId)
+                                             .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        item.setCustomer(customer); // Associate customer with the item
+        return itemsRepository.save(item); // Save item with associated customer
     }
+
+    
 
     // Get all 
     public List<Items> getAllItems() {

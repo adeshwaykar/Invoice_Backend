@@ -10,9 +10,9 @@ import java.time.LocalDate;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "customer_id")
+    private Long customer_id;
   
-
     @Column(unique = true)
     private String email;
 
@@ -24,15 +24,17 @@ public class Customer {
     private LocalDate createdOn;
     private boolean verified;
     private String verificationOtp;
-	public Long getId() {
-		return id;
+
+       
+	public Long getCustomer_id() {
+		return customer_id;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setCustomer_id(Long customer_id) {
+		customer_id = customer_id;
 	}
 	public String getEmail() {
 		return email;
-	}
+	} 
 	public void setEmail(String email) {
 		this.email = email;
 	}

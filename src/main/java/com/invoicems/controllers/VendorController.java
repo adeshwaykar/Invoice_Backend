@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.invoicems.models.*;
 import com.invoicems.models.Vendor;
 import com.invoicems.services.VendorService;
 
@@ -18,11 +19,18 @@ public class VendorController {
     @Autowired
     private VendorService vendorService;
 
-    @PostMapping("/add")
-    public ResponseEntity<Vendor> addVendor(@RequestBody Vendor vendor) {
-        Vendor savedVendor = vendorService.addVendor(vendor);
-        return ResponseEntity.ok(savedVendor);
+    
+    
+    @PostMapping("/customer/{customerId}")
+    public ResponseEntity<Vendor> saveOrUpdateVendor(@PathVariable("customerId") Long customerId, @RequestBody Vendor vendor) {
+        try {
+            Vendor savedVendor = vendorService.addVendor(customerId, vendor);
+            return new ResponseEntity<>(savedVendor, HttpStatus.CREATED); // Return created vendor with status 201
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // If customer not found, return 404
+        }
     }
+    
 //--------------------------------------------------------------------
     @GetMapping("/all")
     public List<Vendor> getAllVendors() {

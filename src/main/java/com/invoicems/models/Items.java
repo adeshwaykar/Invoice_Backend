@@ -2,11 +2,15 @@ package com.invoicems.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.invoicems.models.*;
 
 @Entity
 @Table(name = "item",
@@ -33,12 +37,29 @@ public class Items {
    private Float percheaseUnitPrice;
    private String percheaseCurrency;
    private Float cess2;
-   private Float cess3;
+   private Float cess3; 
    
+   // Foreign key 
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+   @JsonIgnore
+   private Customer customer;
    
-   public Items() {
-	// TODO Auto-generated constructor stub
+   public Customer getCustomer() {
+	return customer;
 }
+
+public void setCustomer(Customer customer) {
+	this.customer = customer;
+}
+
+public void setPercheaseUnitPrice(Float percheaseUnitPrice) {
+	this.percheaseUnitPrice = percheaseUnitPrice;
+}
+
+public Items() {
+	// TODO Auto-generated constructor stub
+   }
    
 public String getItemName() {
 	return itemName;
@@ -130,7 +151,6 @@ public Float getCess3() {
 public void setCess3(Float cess3) {
 	this.cess3 = cess3;
 }
-
 @Override
 public String toString() {
 	return "Items [itemName=" + itemName + ", description=" + description + ", quantity=" + quantity + ", unit=" + unit
