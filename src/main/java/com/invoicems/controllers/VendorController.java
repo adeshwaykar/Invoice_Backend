@@ -22,7 +22,7 @@ public class VendorController {
     
     
     @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Vendor> saveOrUpdateVendor(@PathVariable("customerId") Long customerId, @RequestBody Vendor vendor) {
+    public ResponseEntity<Vendor> saveOrUpdateVendor(@PathVariable("customerId") String customerId, @RequestBody Vendor vendor) {
         try {
             Vendor savedVendor = vendorService.addVendor(customerId, vendor);
             return new ResponseEntity<>(savedVendor, HttpStatus.CREATED); // Return created vendor with status 201

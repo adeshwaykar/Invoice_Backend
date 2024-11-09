@@ -24,7 +24,7 @@ public class ItemsService {
     
  // In the service layer or controller
 
-    public Items saveOrUpdateItem(Long customerId, Items item) {
+    public Items saveOrUpdateItem(String customerId, Items item) {
         Customer customer = customerRepository.findById(customerId)
                                              .orElseThrow(() -> new RuntimeException("Customer not found"));
 

@@ -1,6 +1,7 @@
 package com.invoicems.services;
 
 import java.util.List;
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class VendorService {
         return vendorRepository.save(vendor);
     }
 
-    public Vendor addVendor(Long customerId, Vendor vendor) {
+    public Vendor addVendor(String customerId, Vendor vendor) {
         // Fetch the customer by customerId
         Customer customer = customerRepository.findById(customerId)
                                               .orElseThrow(() -> new RuntimeException("Customer not found"));

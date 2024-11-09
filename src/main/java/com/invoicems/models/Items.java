@@ -39,6 +39,7 @@ public class Items {
    private Float cess2;
    private Float cess3; 
    
+   
    // Foreign key 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")

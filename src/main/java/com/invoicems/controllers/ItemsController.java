@@ -17,7 +17,7 @@ public class ItemsController {
     @Autowired
     private ItemsService itemsService;
     @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Items> saveOrUpdateItem(@PathVariable("customerId") Long customerId, @RequestBody Items item) {
+    public ResponseEntity<Items> saveOrUpdateItem(@PathVariable("customerId") String customerId, @RequestBody Items item) {
         try {
             Items savedItem = itemsService.saveOrUpdateItem(customerId, item);
             return new ResponseEntity<>(savedItem, HttpStatus.CREATED); // Return created item with status 201

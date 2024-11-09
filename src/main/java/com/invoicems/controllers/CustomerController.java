@@ -8,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.invoicems.models.Customer;
+import com.invoicems.models.VerifyCustomer;
 import com.invoicems.services.CustomerService;
 import com.invoicems.services.EmailService;
+import com.invoicems.services.VerifyCustomerService;
 
 @RestController
 @RequestMapping("/")
@@ -20,11 +22,15 @@ public class CustomerController {
     
     @Autowired
     private EmailService emailService;
+    
+    @Autowired
+    private VerifyCustomerService verifyCustomerService;
 
-    @PostMapping("/signup")
+    @PutMapping("/signup")
+    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
     public String signup(@RequestBody Customer customer) {
-        customerService.registerCustomer(customer);
-        return "Signup successful! Please verify your email with the OTP.";
+        customerService.updateCustomer(customer.getCustomer_id(), customer);
+        return "signup done";
     }
  //--------------------------------------------------------------------
     @GetMapping("/verify")
@@ -36,23 +42,35 @@ public class CustomerController {
         }
     }
     @PostMapping("/verifyOtp")
+    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+
     public ResponseEntity<String> verifyOtp(@RequestBody Map<String, String> otpRequest) {
-        String otp = otpRequest.get("otp");
-        String email = otpRequest.get("email");
+      
+        VerifyCustomer  emailOtp=new VerifyCustomer();
+        emailOtp.setCustomerEmail(otpRequest.get("email"));
+        emailOtp.setOtp(otpRequest.get("otp"));
 
-        Optional<Customer> customer = customerService.findByEmail(email);
+       String presentOrNot= verifyCustomerService.checkOtpVerification(emailOtp);
+               System.out.println(presentOrNot +"test by adesh");
+        if(presentOrNot!="") {
+            return ResponseEntity.ok(presentOrNot);
 
-        if (customer.isPresent()) {
-            if (otp.equals(customer.get().getVerificationOtp())) {
-                customer.get().setVerified(true);  
-                customerService.updateCustomerVerification(customer.get());  
-                return ResponseEntity.ok("OTP verified successfully!");
-            } else {
-                return ResponseEntity.status(400).body("Invalid OTP.");
-            }
-        } else {
-            return ResponseEntity.status(404).body("Customer not found.");
+        }else {
+            return ResponseEntity.status(401).body("otp not match");
+
         }
+
+//        if (customer.isPresent()) {
+//            if (otp.equals(customer.get().getVerificationOtp())) {
+//                customer.get().setVerified(true);  
+//                customerService.updateCustomerVerification(customer.get());  
+//                return ResponseEntity.ok("OTP verified successfully!");
+//            } else {
+//                return ResponseEntity.status(400).body("Invalid OTP.");
+//            }
+//        } else {
+//            return ResponseEntity.status(404).body("Customer not found.");
+//        }
     }
 
 
@@ -70,16 +88,33 @@ public class CustomerController {
     }*/
 //--------------------------------------------------------------------
     @PostMapping("/login")
+    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+
     public ResponseEntity<String> login(@RequestBody Customer loginRequest) {
+       // System.out.println(loginRequest.getEmail());
+
         Optional<Customer> customer = customerService.login(loginRequest.getEmail(), loginRequest.getPassword());
-        
         if (customer.isPresent()) {
             
-            return ResponseEntity.ok("Login successful!");
+            return ResponseEntity.ok(customer.get().getCustomer_id());
         } else {
             
             return ResponseEntity.status(401).body("Invalid credentials or email not verified.");
         }
+    }
+    
+    
+    @PostMapping("/sendOtp")
+    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+    public ResponseEntity<String>sendOtp(@RequestParam String email){
+    	
+    	VerifyCustomer customer= verifyCustomerService.updateOrSaveVerifyCustomer(email);
+    	   System.out.println("d"+customer);
+    	if(customer!=null) {
+    		return ResponseEntity.ok("send email");
+    	}
+		return ResponseEntity.status(401).body("Something get wrong"); 
+    	
     }
 
 

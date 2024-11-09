@@ -26,7 +26,7 @@ public class EmailService {
         return String.valueOf(otp);
     }
 
-    public void sendVerificationEmail(Customer customer) {
+    public String sendVerificationEmail(Customer customer) {
         String subject = "Email Verification";
         String senderName = "Invoice Management";
 
@@ -56,5 +56,39 @@ public class EmailService {
         } catch (MessagingException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        return otp;
+    }
+    
+    
+    public String sendVerificationOtp(String email) {
+        String subject = "Email Verification";
+        String senderName = "Invoice Management";
+
+        
+        String otp = generateOTP();
+
+       
+
+        String mailContent = "<p>Dear User,</p>";
+        mailContent += "<p>Please use the following OTP to verify your registration:</p>";
+        mailContent += "<h3>" + otp + "</h3>";
+        mailContent += "<p>Thank you!<br>Invoice Management Team</p>";
+
+       
+        System.out.println("Generated OTP: " + otp);
+
+//        MimeMessage message = mailSender.createMimeMessage();
+//        MimeMessageHelper helper = new MimeMessageHelper(message);
+//
+//        try {
+//            helper.setFrom("shreshthinalawade555@gmail.com", senderName); 
+//            helper.setTo(email);
+//            helper.setSubject(subject); 
+//            helper.setText(mailContent, true); 
+//            mailSender.send(message); 
+//        } catch (MessagingException | UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        return otp;
     }
 }
