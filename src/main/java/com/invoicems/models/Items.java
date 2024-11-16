@@ -3,56 +3,57 @@ package com.invoicems.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.invoicems.models.*;
 
 @Entity
-@Table(name = "item",
-uniqueConstraints = @UniqueConstraint(columnNames = "hsn")
-
+@Table(name = "item"
 		)
+@Data
 public class Items {
 	
    @Id
+   @GeneratedValue(strategy =GenerationType.UUID)
+   private String itemId;
+   private String itemType; // Product or Service
+   
    private String itemName;
    private String description;
    private Integer quantity;
    private String unit;
    private Float tax;
-  
    private String hsn;
    private String sku;
-   
+   private String sac;
    private Float saleUnitPrice;
    private String saleCurrency;
    private Float cess;
    private Float cess1;
-   
    private Float percheaseUnitPrice;
    private String percheaseCurrency;
-   private Float cess2;
-   private Float cess3; 
+   private Float percheasecess2;
+   private Float percheasecess3; 
+   private Boolean isDeleted;
    
-   
+   private Date createdTime;
    // Foreign key 
-   @ManyToOne(fetch = FetchType.LAZY)
+   @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
    @JsonIgnore
    private Customer customer;
-   
-   public Customer getCustomer() {
-	return customer;
-}
 
-public void setCustomer(Customer customer) {
-	this.customer = customer;
-}
 
 public void setPercheaseUnitPrice(Float percheaseUnitPrice) {
 	this.percheaseUnitPrice = percheaseUnitPrice;
@@ -140,26 +141,8 @@ public String getPercheaseCurrency() {
 public void setPercheaseCurrency(String percheaseCurrency) {
 	this.percheaseCurrency = percheaseCurrency;
 }
-public Float getCess2() {
-	return cess2;
-}
-public void setCess2(Float cess2) {
-	this.cess2 = cess2;
-}
-public Float getCess3() {
-	return cess3;
-}
-public void setCess3(Float cess3) {
-	this.cess3 = cess3;
-}
-@Override
-public String toString() {
-	return "Items [itemName=" + itemName + ", description=" + description + ", quantity=" + quantity + ", unit=" + unit
-			+ ", tax=" + tax + ", hsn=" + hsn + ", sku=" + sku + ", saleUnitPrise=" + saleUnitPrice + ", saleCurrency="
-			+ saleCurrency + ", cess=" + cess + ", cess1=" + cess1 + ", percheaseUnitPrise=" + percheaseUnitPrice
-			+ ", percheaseCurrency=" + percheaseCurrency + ", cess2=" + cess2 + ", cess3=" + cess3 + "]";
-}
-   
+
+
    
    
 	

@@ -16,12 +16,17 @@ public class ItemsController {
 
     @Autowired
     private ItemsService itemsService;
-    @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Items> saveOrUpdateItem(@PathVariable("customerId") String customerId, @RequestBody Items item) {
+    
+    @PostMapping("/createItem")
+    public ResponseEntity<Items> saveOrUpdateItem(@RequestHeader("customer_id")String customer_id,  @RequestBody Items item) {
+    	System.out.println(customer_id);
         try {
-            Items savedItem = itemsService.saveOrUpdateItem(customerId, item);
+            Items savedItem = itemsService.saveOrUpdateItem(customer_id, item);
+        	System.out.println(savedItem);
+
             return new ResponseEntity<>(savedItem, HttpStatus.CREATED); // Return created item with status 201
         } catch (RuntimeException e) {
+        	System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // If customer not found, return 404
         }
     }
@@ -34,8 +39,8 @@ public class ItemsController {
     
     
     @GetMapping("/all")
-    public ResponseEntity<List<Items>> getAllItems() {
-        List<Items> itemsList = itemsService.getAllItems();
+    public ResponseEntity<List<Items>> getAllItems(@RequestHeader("customer_id")String customer_id ) {
+        List<Items> itemsList = itemsService.getAllItems(customer_id);
         return new ResponseEntity<>(itemsList, HttpStatus.OK);
     }
 //--------------------------------------------------------------------
@@ -63,7 +68,7 @@ public class ItemsController {
     }
 //--------------------------------------------------------------------
     // Delete item by itemName
-    @DeleteMapping("/{itemName}")
+    @DeleteMapping("/{item}/{itemName}")
     public ResponseEntity<String> deleteItem(@PathVariable String itemName) {
         Optional<Items> item = itemsService.getItemByName(itemName);
         if (item.isPresent()) {
@@ -73,4 +78,38 @@ public class ItemsController {
             return ResponseEntity.status(404).body("Item not found");
         }
     }
+    
+    
+    
+    @GetMapping("/{item}/{itemId}")
+    public ResponseEntity<Items> getItemByItemId(@PathVariable String itemId) {
+        Optional<Items> item = itemsService.getItemByName(itemId);
+        if (item.isPresent()) {
+           
+            return new ResponseEntity<>(item.get(),HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+    
+    @PatchMapping("/{item}/{itemId}")
+    public ResponseEntity<Items> updateItemByItemId(@RequestHeader ("customer_id")String customer_id, @PathVariable String itemId,@RequestBody Items items) {
+        Optional<Items> item = itemsService.getItemByName(itemId);
+        System.out.println(items);
+        System.out.println(itemId);
+        System.out.println(customer_id);
+
+
+        
+        if (item.isPresent()) {
+        Items upDtaeditem=	itemsService.updateItem(items,customer_id);
+           
+            return new ResponseEntity<>(upDtaeditem,HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(404).body(null);
+        }
+    }
+    
+    
+    
 }

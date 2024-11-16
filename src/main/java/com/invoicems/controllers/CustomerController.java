@@ -107,7 +107,11 @@ public class CustomerController {
     @PostMapping("/sendOtp")
     @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
     public ResponseEntity<String>sendOtp(@RequestParam String email){
-    	
+ 	  Optional<Customer> isPresent   = customerService.findByEmail(email);
+ 	     if(isPresent.isPresent()) {
+ 	    	 return ResponseEntity.ok("email alredy exist ");
+ 	     }
+
     	VerifyCustomer customer= verifyCustomerService.updateOrSaveVerifyCustomer(email);
     	   System.out.println("d"+customer);
     	if(customer!=null) {
@@ -116,6 +120,30 @@ public class CustomerController {
 		return ResponseEntity.status(401).body("Something get wrong"); 
     	
     }
+    
+    
+    @PostMapping("/sendForgotOtp")
+    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+    public ResponseEntity<String>fogotSendOtp(@RequestParam String email){
+    	System.out.println(email);
+ 	  Optional<Customer> isPresent   = customerService.findByEmail(email);
+ 	     if(isPresent.isPresent()) {
+ 	    	VerifyCustomer customer= verifyCustomerService.updateOrSaveVerifyCustomer(email);
+ 	    	if(customer!=null) {
+ 	    		return ResponseEntity.ok("send email");
+ 	    	}
+ 	    	 
+ 	     }else {
+ 	    	return ResponseEntity.ok("email not exist ");
+ 	     }
+
+    	   
+    	
+		return ResponseEntity.status(401).body("Something get wrong"); 
+    	
+    }
+    
+    
 
 
     
