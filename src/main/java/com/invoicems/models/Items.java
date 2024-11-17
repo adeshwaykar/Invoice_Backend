@@ -142,6 +142,70 @@ public void setPercheaseCurrency(String percheaseCurrency) {
 	this.percheaseCurrency = percheaseCurrency;
 }
 
+public String getItemId() {
+	return itemId;
+}
+
+public void setItemId(String itemId) {
+	this.itemId = itemId;
+}
+
+public String getItemType() {
+	return itemType;
+}
+
+public void setItemType(String itemType) {
+	this.itemType = itemType;
+}
+
+public String getSac() {
+	return sac;
+}
+
+public void setSac(String sac) {
+	this.sac = sac;
+}
+
+public Float getPercheasecess2() {
+	return percheasecess2;
+}
+
+public void setPercheasecess2(Float percheasecess2) {
+	this.percheasecess2 = percheasecess2;
+}
+
+public Float getPercheasecess3() {
+	return percheasecess3;
+}
+
+public void setPercheasecess3(Float percheasecess3) {
+	this.percheasecess3 = percheasecess3;
+}
+
+public Boolean getIsDeleted() {
+	return isDeleted;
+}
+
+public void setIsDeleted(Boolean isDeleted) {
+	this.isDeleted = isDeleted;
+}
+
+public Date getCreatedTime() {
+	return createdTime;
+}
+
+public void setCreatedTime(Date createdTime) {
+	this.createdTime = createdTime;
+}
+
+public Customer getCustomer() {
+	return customer;
+}
+
+public void setCustomer(Customer customer) {
+	this.customer = customer;
+}
+
 
    
    

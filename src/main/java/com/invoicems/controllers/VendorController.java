@@ -21,9 +21,10 @@ public class VendorController {
 
     
     
-    @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Vendor> saveOrUpdateVendor(@PathVariable("customerId") String customerId, @RequestBody Vendor vendor) {
+    @PostMapping("/save")
+    public ResponseEntity<Vendor> saveOrUpdateVendor(@RequestHeader("customer_id") String customerId, @RequestBody Vendor vendor) {
         try {
+        	System.out.println(vendor);
             Vendor savedVendor = vendorService.addVendor(customerId, vendor);
             return new ResponseEntity<>(savedVendor, HttpStatus.CREATED); // Return created vendor with status 201
         } catch (RuntimeException e) {
@@ -31,22 +32,23 @@ public class VendorController {
         }
     }
     
-//--------------------------------------------------------------------
+	//--------------------------------------------------------------------
     @GetMapping("/all")
-    public List<Vendor> getAllVendors() {
-        return vendorService.getAllVendors();
+    public List<Vendor> getAllVendors(@RequestHeader("customer_id") String customerId,@RequestParam("type") String type  ) {
+    	System.out.println(customerId);
+        return vendorService.getAllVendors(customerId,type);
     }
 //--------------------------------------------------------------------
-    @GetMapping("/{companyName}")
-    public ResponseEntity<Vendor> getVendorById(@PathVariable String companyName) {
-        Optional<Vendor> vendor = vendorService.getVendorById(companyName);
+    @GetMapping("/{vendorUniqId}")
+    public ResponseEntity<Vendor> getVendorById(@PathVariable String vendorUniqId) {
+        Optional<Vendor> vendor = vendorService.getVendorById(vendorUniqId);
         return vendor.map(ResponseEntity::ok)
                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 //--------------------------------------------------------------------
-    @PutMapping("/{companyName}")
-    public ResponseEntity<Vendor> updateVendor(@PathVariable String companyName, @RequestBody Vendor vendorDetails) {
-        Vendor updatedVendor = vendorService.updateVendor(companyName, vendorDetails);
+    @PutMapping("/{vendorUniqId}")
+    public ResponseEntity<Vendor> updateVendor(@PathVariable String vendorUniqId, @RequestBody Vendor vendorDetails) {
+        Vendor updatedVendor = vendorService.updateVendor(vendorUniqId, vendorDetails);
         if (updatedVendor != null) {
             return ResponseEntity.ok(updatedVendor);
         } else {
@@ -54,9 +56,27 @@ public class VendorController {
         }
     }
 //--------------------------------------------------------------------
-    @DeleteMapping("/{companyName}")
-    public ResponseEntity<String> deleteVendor(@PathVariable String companyName) {
-        vendorService.deleteVendor(companyName);
+    @DeleteMapping("/{vendorUniqId}")
+    public ResponseEntity<String> deleteVendor(@PathVariable String vendorUniqId) {
+        vendorService.deleteVendor(vendorUniqId);
         return ResponseEntity.ok("Vendor deleted successfully.");
     }
+    
+    
+//    public ResponseEntity<String>
+    
+    
+    
+    
+   
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
