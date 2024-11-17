@@ -21,9 +21,10 @@ public class VendorController {
 
     
     
-    @PostMapping("/customer/{customerId}")
-    public ResponseEntity<Vendor> saveOrUpdateVendor(@PathVariable("customerId") String customerId, @RequestBody Vendor vendor) {
+    @PostMapping("/save")
+    public ResponseEntity<Vendor> saveOrUpdateVendor(@RequestHeader("customer_id") String customerId, @RequestBody Vendor vendor) {
         try {
+        	System.out.println(vendor);
             Vendor savedVendor = vendorService.addVendor(customerId, vendor);
             return new ResponseEntity<>(savedVendor, HttpStatus.CREATED); // Return created vendor with status 201
         } catch (RuntimeException e) {
@@ -31,10 +32,11 @@ public class VendorController {
         }
     }
     
-//--------------------------------------------------------------------
+	//--------------------------------------------------------------------
     @GetMapping("/all")
-    public List<Vendor> getAllVendors() {
-        return vendorService.getAllVendors();
+    public List<Vendor> getAllVendors(@RequestHeader("customer_id") String customerId ) {
+    	System.out.println(customerId);
+        return vendorService.getAllVendors(customerId);
     }
 //--------------------------------------------------------------------
     @GetMapping("/{companyName}")

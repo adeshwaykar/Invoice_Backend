@@ -40,8 +40,11 @@ public class VendorService {
     
 //-------------------------------------------------------------    
     
-    public List<Vendor> getAllVendors() {
-        return vendorRepository.findAll();
+    public List<Vendor> getAllVendors(String customerId) {
+    	Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        return vendorRepository.findByCustomer(customer);
     }
 
     public Optional<Vendor> getVendorById(String companyName) {
