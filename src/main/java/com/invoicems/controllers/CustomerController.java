@@ -27,13 +27,14 @@ public class CustomerController {
     private VerifyCustomerService verifyCustomerService;
 
     @PutMapping("/signup")
-    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+//    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
     public String signup(@RequestBody Customer customer) {
         customerService.updateCustomer(customer.getCustomer_id(), customer);
         return "signup done";
     }
  //--------------------------------------------------------------------
     @GetMapping("/verify")
+    
     public String verifyAccount(@RequestParam("otp") String otp) {
         if (customerService.verifyCustomer(otp)) {
             return "Account verified successfully!";
@@ -42,7 +43,7 @@ public class CustomerController {
         }
     }
     @PostMapping("/verifyOtp")
-    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+//    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
 
     public ResponseEntity<String> verifyOtp(@RequestBody Map<String, String> otpRequest) {
       
@@ -88,7 +89,7 @@ public class CustomerController {
     }*/
 //--------------------------------------------------------------------
     @PostMapping("/login")
-    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+//    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
 
     public ResponseEntity<String> login(@RequestBody Customer loginRequest) {
        // System.out.println(loginRequest.getEmail());
@@ -105,8 +106,9 @@ public class CustomerController {
     
     
     @PostMapping("/sendOtp")
-    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+//    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
     public ResponseEntity<String>sendOtp(@RequestParam String email){
+    	System.out.println("test");
  	  Optional<Customer> isPresent   = customerService.findByEmail(email);
  	     if(isPresent.isPresent()) {
  	    	 return ResponseEntity.ok("email alredy exist ");
@@ -123,7 +125,7 @@ public class CustomerController {
     
     
     @PostMapping("/sendForgotOtp")
-    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
+//    @CrossOrigin(origins = "http://localhost:3000") // Update with your frontend URL
     public ResponseEntity<String>fogotSendOtp(@RequestParam String email){
     	System.out.println(email);
  	  Optional<Customer> isPresent   = customerService.findByEmail(email);
